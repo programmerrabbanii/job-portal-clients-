@@ -1,9 +1,64 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Lottie from "lottie-react";
 import loginAnimation from "../assets/lottie/login.json";
+import { AuthContext } from "../auth/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signUser, googleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    
+    signUser(email, password)
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: error.message || "Login failed!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Google login successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: error.message || "Google login failed!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+  };
 
   return (
     <div className="hero bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center">
@@ -18,13 +73,14 @@ const Login = () => {
           <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">
             Login Now!
           </h1>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             {/* Email Input */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-lg font-medium">Email</span>
               </label>
               <input
+                name="email"
                 type="email"
                 placeholder="Enter your email"
                 className="input input-bordered input-primary w-full py-3 px-4 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -39,6 +95,7 @@ const Login = () => {
               </label>
               <div className="relative flex items-center">
                 <input
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="input input-bordered input-primary w-full py-3 px-4 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -61,14 +118,18 @@ const Login = () => {
 
             {/* Login Button */}
             <div className="form-control">
-              <button className="btn btn-primary w-full py-3 rounded-lg text-lg font-medium">
+              <button type="submit" className="btn btn-primary w-full py-3 rounded-lg text-lg font-medium">
                 Login
               </button>
             </div>
 
             {/* Google Login Button */}
             <div className="form-control">
-              <button className="btn btn-outline btn-secondary w-full py-3 rounded-lg text-lg font-medium">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="btn btn-outline btn-secondary w-full py-3 rounded-lg text-lg font-medium"
+              >
                 <span className="mr-2">🔑</span> Login with Google
               </button>
             </div>
