@@ -1,7 +1,9 @@
+import Bannar from "../components/Bannar";
+
 const Home = () => {
     return (
         <div>
-            thisss is home
+           <Bannar></Bannar>
         </div>
     );
 };
