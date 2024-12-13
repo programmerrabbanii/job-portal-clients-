@@ -59,7 +59,7 @@ const JobCard = ({ job }) => {
             to={`/jobs/${_id}`}
             className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 border-none px-6 py-2 rounded-lg transition-all duration-300 hover:shadow-lg"
           >
-            Apply Now
+            See More
           </Link>
         </div>
       </div>
