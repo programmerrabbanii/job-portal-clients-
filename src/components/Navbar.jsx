@@ -18,7 +18,30 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-    </>
+
+      <li>
+        <NavLink
+          to="/myapply"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold" : "text-gray-600"
+          }
+        >
+          My Application
+        </NavLink>
+      </li>
+
+
+      <li>
+        <NavLink
+          to="/addjob"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold" : "text-gray-600"
+          }
+        >
+          Add Job
+        </NavLink>
+      </li>
+    </> 
   );
 
   return (

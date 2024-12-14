@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const JobDetails = () => {
   const detailsData = useLoaderData();
@@ -32,7 +32,7 @@ const JobDetails = () => {
             <span className="mr-2">&#x1F4CD;</span> {location}
           </p>
         </div>
-      </div>
+      </div> 
 
       {/* Job Details */}
       <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 animate-fadeIn">
@@ -77,9 +77,9 @@ const JobDetails = () => {
 
       {/* Apply Button */}
       <div className="flex justify-center mt-8">
-        <button className="bg-gradient-to-r from-green-400 to-green-600 text-white px-8 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-green-700 transform hover:scale-105 transition-all duration-300">
+        <Link to={`/jobApply/${_id}`} className="bg-gradient-to-r from-green-400 to-green-600 text-white px-8 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-green-700 transform hover:scale-105 transition-all duration-300">
           Apply Now
-        </button>
+        </Link>
       </div>
     </div>
   );
