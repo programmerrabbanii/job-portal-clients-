@@ -41,6 +41,18 @@ const Navbar = () => {
           Add Job
         </NavLink>
       </li>
+
+
+      <li>
+        <NavLink
+          to="/myjobs"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold" : "text-gray-600"
+          }
+        >
+          My Jobs
+        </NavLink>
+      </li>
     </> 
   );
 

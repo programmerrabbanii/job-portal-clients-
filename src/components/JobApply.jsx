@@ -12,10 +12,10 @@ const JobApply = () => {
         const name=e.target.name.value;
         const coverLetter=e.target.coverLetter.value;
         const linkedIn=e.target.linkedIn.value;
-        const email=e.target.email.value;
+        const hr_email=e.target.email.value;
         const phone=e.target.phone.value;
-        const jobApplyInfo={name,coverLetter,linkedIn,email,phone,job_id: id,applicant_email:user.email }
-
+        const jobApplyInfo={name,coverLetter,linkedIn,hr_email,phone,job_id: id,applicant_email:user.email }
+        console.log(jobApplyInfo);
         fetch('http://localhost:5000/job-apply',{
             method:'POST',
             headers:{
