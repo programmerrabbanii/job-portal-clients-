@@ -19,7 +19,7 @@ const AddJob = () => {
     fetch('http://localhost:5000/jobs',{
         method:'POST',
         headers:{
-            'content-type' : 'application/json'
+            'content-type' :'application/json'
         },
         body:JSON.stringify(newJob)
     })

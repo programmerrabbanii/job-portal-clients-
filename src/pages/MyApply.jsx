@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth/AuthProvider";
 import { FcDeleteDatabase } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyApply = () => {
   const { user } = useContext(AuthContext);
@@ -13,13 +13,35 @@ const MyApply = () => {
   }, [user.email]);
 
   const jobDeleted=(id)=>{
-    fetch(`http://localhost:5000/jobs/${id}`,{
-        method:'DELETE'
-    })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data); 
-    })
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+     fetch(`http://localhost:5000/job/${id}`,{
+          method:'DELETE'
+      })
+      .then(res=>res.json())
+      .then(data=>{
+          if(data.deletedCount >0){
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Job  has been deleted.",
+              icon: "success"
+            });
+          }
+      })
+      const remaing=jobs.filter((job)=> job._id !==id)
+      setJobs(remaing)
+      }
+    });
+ 
   }
   return (
     <div>
@@ -63,18 +85,13 @@ const MyApply = () => {
                 </td>
                 <td>Purple</td>
                 <th>
-                  <Link onClick={jobDeleted} className="text-5xl"><FcDeleteDatabase />
-                  </Link>
+                  <button onClick={()=>jobDeleted(job._id)} className="text-5xl"><FcDeleteDatabase />
+                  </button>
                 </th>
               </tr>)
              }
           
-          
-           
-           
           </tbody>
-          
-          
         </table>
       </div>
     </div>
