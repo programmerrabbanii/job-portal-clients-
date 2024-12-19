@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
+import axios from "axios";
 export const AuthContext=createContext()
 const provider= new GoogleAuthProvider()
 const AuthProvider = ({children}) => {
@@ -37,15 +38,40 @@ const AuthProvider = ({children}) => {
 
     }
 
-    useEffect(()=>{
-        const unsubscribe= onAuthStateChanged(auth, (currentUser)=>{
-            setUser(currentUser)
-            setLoading(false)
-        })
-        return()=>{
-            unsubscribe()
-        }
-    },[])
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            if (currentUser?.email) {
+                setLoading(true); 
+                const user = { email: currentUser.email };
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                    .then(res => {
+                        console.log('login token', res.data);
+                        setLoading(false); 
+                    })
+                    .catch(err => {
+                        console.error('JWT Error:', err);
+                        setLoading(false); 
+                    });
+            } else {
+                setLoading(true); 
+                axios.post('http://localhost:5000/logout', {}, { withCredentials: true })
+                    .then(res => {
+                        console.log('Logout success:', res.data);
+                        setLoading(false);
+                    })
+                    .catch(err => {
+                        console.error('Logout Error:', err);
+                        setLoading(false); 
+                    });
+            }
+        });
+    
+        return () => {
+            unsubscribe(); 
+        };
+    }, []);
+    
     return (
         <AuthContext.Provider value={authInfo}>
             {children}

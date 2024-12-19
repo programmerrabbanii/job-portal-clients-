@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth/AuthProvider";
 import { FcDeleteDatabase } from "react-icons/fc";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const MyApply = () => {
   const { user } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/job-applyed?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setJobs(data));
+    axios.get(`http://localhost:5000/job-applyed?email=${user.email}`,{withCredentials:true})
+    .then(res=>setJobs(res.data))
   }, [user.email]);
 
   const jobDeleted=(id)=>{
@@ -59,7 +59,7 @@ const MyApply = () => {
           <tbody>
             {/* row 1 */}
              {
-                jobs.map((job)=> <tr>
+                jobs?.map((job)=> <tr>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">

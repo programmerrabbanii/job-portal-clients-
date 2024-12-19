@@ -21,7 +21,7 @@ const JobCard = ({ job }) => {
     description.length > 200 ? `${description.slice(0, 100)}...` : description;
 
   return (
-    <div className="card card-compact bg-white shadow-md border border-gray-200 rounded-lg p-5 hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+    <div className=" mb-10 card card-compact bg-white shadow-md border border-gray-200 rounded-lg p-5 hover:shadow-xl hover:scale-105 transform transition-all duration-300">
       <figure className="flex items-center space-x-4">
         <img
           src={company_logo}
